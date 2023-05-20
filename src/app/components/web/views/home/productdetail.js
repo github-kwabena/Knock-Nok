@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Productdetail extends Component {
-  render() {
+const Productdetail = () => {
+ 
     return (
       <div>
         <div className="p-3 bg-white">
@@ -407,4 +407,5 @@ export default class Productdetail extends Component {
       </div>
     );
   }
-}
+
+export default Productdetail;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "../web/views/home";
-import ProductList from "./views/home/productList";
+
 import Productdetail from "./views/home/productdetail";
 import Cart from "./views/home/cart";
 import Orderaddress from "./views/home/orderaddress";
@@ -9,21 +9,24 @@ import Payment from "./views/home/payment";
 import Checkout from "./views/home/checkout";
 import Successfully from "./views/home/successfully";
 import Orderstatus from "./views/home/orderstatus";
-export default class rootRoutes extends Component {
+import AddProduct from "./views/home/addProduct";
+
+export default class RootRoutes extends Component {
   render() {
     return (
       <div>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/listing" component={ProductList} />
-          <Route exact path="/product-detail" component={Productdetail} />
-          <Route exact path="/cart" component={Cart} />
-          <Route exact path="/order-address" component={Orderaddress} />
-          <Route exact path="/payment" component={Payment} />
-          <Route exact path="/checkout" component={Checkout} />
-          <Route exact path="/successfully" component={Successfully} />
-          <Route exact path="/order-status" component={Orderstatus} />
-        </Switch>
+          <Routes>
+          <Route  path="/" element={<Home/>} />
+          
+          <Route  path="/product-detail" element={<Productdetail/>} />
+          <Route  path="/cart" element={<Cart/>} />
+          <Route  path="/order-address" element={<Orderaddress/>} />
+          <Route  path="/payment" element={<Payment/>} />
+          <Route  path="/checkout" element={<Checkout/>} />
+          <Route  path="/successfully" element={<Successfully/>} />
+          <Route  path="/order-status" element={<Orderstatus/>} />
+          <Route  path="/listing" element={<AddProduct/>} />
+          </Routes>
       </div>
     );
   }

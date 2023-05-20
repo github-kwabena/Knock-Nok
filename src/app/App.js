@@ -1,19 +1,18 @@
-import React, { Component } from "react";
-import rootRoutes from "./components/web/rootRoutes";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
-import { NotificationContainer } from "react-notifications";
+import React from "react";
 import "react-notifications/lib/notifications.css";
-export default class App extends Component {
-  render() {
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import RootRoutes from "./components/web/rootRoutes";
+// import { ProductsContextProvider } from "./global/ProductsContext";
+export default function App(){
+    
     return (
       <div className="App">
-        <NotificationContainer />
-        <BrowserRouter>
-          <Switch>
-            <Route path="/" component={rootRoutes} />
-          </Switch>
-        </BrowserRouter>
+       
+        <ToastContainer />
+        <RootRoutes/>
+                
       </div>
     );
-  }
+  
 }

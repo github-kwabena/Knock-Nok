@@ -1,10 +1,36 @@
-import React, { Component } from "react";
-import Header from "../../../header";
-export default class Cart extends Component {
-  render() {
+import React, {useEffect, useState}from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Footer from "../../../footer";
+import { Link } from "react-router-dom";
+import {addToCart, decreaseCart, getTotals } from "../../../../redux/features/cartSlice";
+import { auth, provider } from "../../../../../config/firebase.config";
+import { signInWithPopup } from "firebase/auth";
+import Checkout from "./checkout";
+const Cart = ()=>{
+    const [value,setValue] = useState('');
+    const handleClick = ( ) => {
+      signInWithPopup(auth,provider).then((data)=>{
+        setValue(data.user.email)
+        localStorage.setItem("email", data.user.email)
+      })
+    }
+    useEffect(()=>{
+      setValue(localStorage.getItem("email"))
+    })
+    const cart = useSelector((state)=> state.cart);
+    const dispatch =useDispatch()
+    useEffect(()=>{
+      dispatch(getTotals());
+    },[cart, dispatch])
+    
+    const handleDecreaseCart = (cartItem) =>{
+      dispatch(decreaseCart(cartItem))
+    }
+    const handleIncreaseCart = (cartItem) =>{
+      dispatch(addToCart(cartItem));
+    }
     return (
       <div>
-        <Header />
         <div className="osahan-cart">
           <div className="p-3 border-bottom">
             <div className="d-flex align-items-center">
@@ -16,156 +42,104 @@ export default class Cart extends Component {
           </div>
         </div>
         <div className="osahan-body">
+        {
+          cart.cartItems.length === 0 ? (
+            <diV>
+              
+              <div>
+                <p>Your cart is currently empty</p>
+                <Link to="/add-products-admin">
+                  <span>Start Shopping</span>
+                </Link>
+              </div>
+            </diV>
+
+          ):
+          (
+        <>{cart.cartItems?.map(cartItem =>(
           <div className="cart-items bg-white position-relative border-bottom">
-            <a href="/product-detail" className="position-absolute">
-              <span className="badge badge-danger m-3">10%</span>
+          <div className="d-flex align-items-center p-3">
+            <a href="/product-detail">
+              <img src={cartItem.ProductImage} className="img-fluid" />
             </a>
-            <div className="d-flex align-items-center p-3">
-              <a href="/product-detail">
-                <img src="img/cart/g1.png" className="img-fluid" />
-              </a>
-              <a
-                href="/product-detail"
-                className="ml-3 text-dark text-decoration-none w-100"
-              >
-                <h5 className="mb-1">Bread</h5>
-                <p className="text-muted mb-2">
-                  <del className="text-success mr-1">$1.20kg</del> $0.98/kg
-                </p>
-                <div className="d-flex align-items-center">
-                  <p className="total_price font-weight-bold m-0">$2.82</p>
-                  <div className="input-group input-spinner ml-auto cart-items-number">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-plus"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue={1}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-minus"
-                      >
-                        −
-                      </button>
-                    </div>
+            <div
+              href="/product-detail"
+              className="ml-3 text-dark text-decoration-none w-100"
+            >
+              <h5 className="mb-1">{cartItem.ProductName}</h5>
+              <p className="text-muted mb-2">
+                {cartItem.ProductPrice}
+              </p>
+              <div className="d-flex align-items-center">
+                <p className="total_price font-weight-bold m-0">{cartItem.ProductPrice}</p>
+                <div className="input-group input-spinner ml-auto cart-items-number">
+                  <div className="input-group-prepend">
+                    <button
+                      className="btn btn-success btn-sm"
+                      type="button"
+                      id="button-plus"
+                      onClick={()=>handleIncreaseCart(cartItem)}
+                    >
+                      +
+                    </button>
                   </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="cart-items bg-white position-relative border-bottom">
-            <div className="d-flex align-items-center p-3">
-              <a href="/product-detail">
-                <img src="img/cart/g2.png" className="img-fluid" />
-              </a>
-              <a
-                href="/product-detail"
-                className="ml-3 text-dark text-decoration-none w-100"
-              >
-                <h5 className="mb-1">Spinach</h5>
-                <p className="text-muted mb-2">
-                  <del className="text-success mr-1">$1.20kg</del> $0.98/kg
-                </p>
-                <div className="d-flex align-items-center">
-                  <p className="total_price font-weight-bold m-0">$3.82</p>
-                  <div className="input-group input-spinner ml-auto cart-items-number">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-plus"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue={3}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-minus"
-                      >
-                        −
-                      </button>
-                    </div>
+                  <div className="form-control">
+                    {cartItem.cartQuantity}
                   </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="cart-items bg-white position-relative border-bottom">
-            <div className="d-flex align-items-center p-3">
-              <a href="/product-detail">
-                <img src="img/cart/g3.png" className="img-fluid" />
-              </a>
-              <a
-                href="/product-detail"
-                className="ml-3 text-dark text-decoration-none w-100"
-              >
-                <h5 className="mb-1">Chilli</h5>
-                <p className="text-muted mb-2">
-                  <del className="text-success mr-1">$1.20kg</del> $0.98/kg
-                </p>
-                <div className="d-flex align-items-center">
-                  <p className="total_price font-weight-bold m-0">$2.82</p>
-                  <div className="input-group input-spinner ml-auto cart-items-number">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-plus"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue={2}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-success btn-sm"
-                        type="button"
-                        id="button-minus"
-                      >
-                        −
-                      </button>
-                    </div>
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-success btn-sm"
+                      type="button"
+                      id="button-minus"
+                      onClick={()=>handleDecreaseCart(cartItem)}
+                    >
+                      −
+                    </button>
                   </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="p-3 mt-5">
-            <a href="/order-address" className="text-decoration-none">
-              <div className="rounded shadow bg-success d-flex align-items-center p-3 text-white">
-                <div className="more">
-                  <h6 className="m-0">Subtotal $8.52</h6>
-                  <p className="small m-0">Proceed to checkout</p>
-                </div>
-                <div className="ml-auto">
-                  <i className="icofont-simple-right" />
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
+        ))}
+        </>
+          
+        )}
+        
+          
+          <div className="p-3 mt-4">
+            { value?<Checkout/>:
+            <Link onClick={handleClick} className="text-decoration-none">
+              <div className="rounded shadow bg-success d-flex align-items-center p-3 text-white">
+                <div className="more">
+                  <h6 className="m-0">Subtotal ${cart.cartTotalAmount}</h6>
+                  <p className="small m-0">Proceed to checkout</p>
+                </div>
+              <div className="ml-auto">
+                  <i className="icofont-simple-right" />
+              </div>
+              </div>
+            </Link>
+          }
+          </div>
+          
+          
+          <div className="p-4 mt-0">
+          
+          <Link to ="/listing">
+          <div className="ml-auto">
+            <i className="icofont-arrow-left"/>
+          </div>
+          
+            <h6 className="m-0">Continue shopping</h6>
+          </Link>
+          </div>
+          
+        </div>
+
+        <Footer/>
       </div>
+   
     );
   }
-}
+export default Cart;
