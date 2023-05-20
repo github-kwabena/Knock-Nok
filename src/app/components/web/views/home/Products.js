@@ -39,7 +39,7 @@ const Products = ({singleProduct}) => {
                 <div className="col-10 p-0 mt-2 ml-3 ">
                    <div className="list-card-image">
                       <div className="p-3">
-                        <Link to="/product-detail" className="text-dark">
+                        <Link to="/listing" className="text-dark">
                            <img
                             src={singleProduct.ProductImage}
                             className="img-fluid item-img w-100 mb-3"

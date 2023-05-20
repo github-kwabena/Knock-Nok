@@ -35,9 +35,9 @@ const Cart = ()=>{
           <div className="p-3 border-bottom">
             <div className="d-flex align-items-center">
               <h5 className="font-weight-bold m-0">Cart</h5>
-              <a className="toggle ml-auto" href="#">
+              <Link className="toggle ml-auto" href="#">
                 <i className="icofont-navigation-menu" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ const Cart = ()=>{
               
               <div>
                 <p>Your cart is currently empty</p>
-                <Link to="/add-products-admin">
+                <Link to="/listing">
                   <span>Start Shopping</span>
                 </Link>
               </div>
@@ -59,9 +59,7 @@ const Cart = ()=>{
         <>{cart.cartItems?.map(cartItem =>(
           <div className="cart-items bg-white position-relative border-bottom">
           <div className="d-flex align-items-center p-3">
-            <a href="/product-detail">
-              <img src={cartItem.ProductImage} className="img-fluid" />
-            </a>
+            <img src={cartItem.ProductImage} className="img-fluid" />
             <div
               href="/product-detail"
               className="ml-3 text-dark text-decoration-none w-100"
