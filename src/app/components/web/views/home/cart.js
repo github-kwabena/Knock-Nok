@@ -69,7 +69,7 @@ const Cart = ()=>{
                 {cartItem.ProductPrice}
               </p>
               <div className="d-flex align-items-center">
-                <p className="total_price font-weight-bold m-0">{cartItem.ProductPrice}</p>
+                <p className="total_price font-weight-bold m-0">${cartItem.ProductPrice} /kg</p>
                 <div className="input-group input-spinner ml-auto cart-items-number">
                   <div className="input-group-prepend">
                     <button

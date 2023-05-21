@@ -47,7 +47,7 @@ const Products = ({singleProduct}) => {
                           <h6>{singleProduct.ProductName}</h6>
                         </Link>
                         <div className="d-flex align-items-center">
-                          <h6 className="price m-0 text-success">{singleProduct.ProductPrice}</h6>
+                          <h6 className="price m-0 text-success">${singleProduct.ProductPrice} /kg</h6>
                           <button
                             type="button"
                             id="button-plus"
